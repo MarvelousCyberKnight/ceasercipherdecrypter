@@ -1,10 +1,14 @@
 # Caesar Cipher Decrypter
 
-A smart Python tool that automatically decrypts Caesar cipher text without requiring you to know the shift key. It analyzes all possible shifts and uses statistical frequency analysis to predict the most likely decryption.
+A smart cryptanalysis tool available in both Python and Bash that automatically decrypts Caesar cipher text without requiring you to know the shift key. It analyzes all possible shifts and uses statistical frequency analysis to predict the most likely decryption.
 
 ## Overview
 
 This decrypter works by testing all 26 possible shift values and scoring each result against the expected frequency distribution of letters in English text. The shift that produces text closest to natural English is selected as the correct decryption.
+
+The tool is available in two implementations:
+- **Python version** (`caesar_decrypt.py`) - Ideal for cross-platform use with clean, readable code
+- **Bash version** (`caesar_decrypt.sh`) - Perfect for Unix/Linux environments and shell scripting workflows
 
 ## How It Works
 
@@ -18,9 +22,11 @@ The tool employs a chi-square statistical test to compare letter frequencies in 
 
 ## Usage
 
+### Python Version
+
 Simply run the script and enter your encrypted text when prompted:
 
-```python
+```bash
 python caesar_decrypt.py
 ```
 
@@ -31,6 +37,25 @@ Enter your cipher text: Khoor Zruog
 Detected shift: 3
 Decrypted text: Hello World
 ```
+
+### Bash Version
+
+Make the script executable and run it:
+
+```bash
+chmod +x caesar_decrypt.sh
+./caesar_decrypt.sh
+```
+
+**Example:**
+
+```
+Enter your cipher text: Khoor Zruog
+Detected shift: 3
+Decrypted text: Hello World
+```
+
+Both versions produce identical results and use the same underlying algorithm.
 
 ## Technical Details
 
@@ -45,8 +70,14 @@ Decrypted text: Hello World
 
 ## Requirements
 
+### Python Version
 - Python 3.x
 - Standard library only (no external dependencies)
+
+### Bash Version
+- Bash 4.0 or higher (for associative arrays)
+- Standard Unix utilities (tr, printf)
+- Works on Linux, macOS, and WSL (Windows Subsystem for Linux)
 
 ## Limitations
 
@@ -57,10 +88,19 @@ Decrypted text: Hello World
 
 ## Code Structure
 
+### Python Version (`caesar_decrypt.py`)
 - `ENGLISH_FREQ`: Dictionary containing standard English letter frequency percentages
 - `decrypt_with_shift()`: Applies a Caesar shift decryption with a given key
 - `chi_square_score()`: Calculates statistical score for decrypted text
 - `smart_caesar_decrypt()`: Tests all shifts and returns the best result
+
+### Bash Version (`caesar_decrypt.sh`)
+- `ENGLISH_FREQ`: Associative array with English letter frequencies (scaled by 1000 for integer arithmetic)
+- `decrypt_with_shift()`: Performs Caesar shift decryption using ASCII manipulation
+- `chi_square_score()`: Computes chi-square statistic using integer-only math
+- `smart_caesar_decrypt()`: Iterates through all shifts and identifies the optimal decryption
+
+**Implementation Note:** The Bash version uses integer arithmetic throughout (scaling frequencies by 1000) to avoid floating-point operations, making it efficient while maintaining accuracy.
 
 ## License
 
